@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Product, RootStackParamList } from '../types';
+import { Product, RootStackParamList } from './types';
 
 type ProductListScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ProductList'>;
 

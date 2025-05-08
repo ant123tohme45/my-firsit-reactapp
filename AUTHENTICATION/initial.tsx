@@ -2,7 +2,7 @@
 import { View, Text, TouchableOpacity, StyleSheet, Animated, Easing } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useRef } from 'react';
-import { useTheme } from '../theme';
+import { useTheme } from '../screen/theme';
 import { Switch } from 'react-native';
 
 

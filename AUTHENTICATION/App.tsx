@@ -7,7 +7,7 @@ import verification from '../Sign/verification';
 import { AuthProvider } from './authContext';
 import product from '../screen/product';
 import details from '../details';
-import { ThemeProvider } from '../theme';
+import { ThemeProvider } from '../screen/theme';
 
 
 const Stack = createNativeStackNavigator();
