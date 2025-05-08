@@ -1,0 +1,3 @@
+Product Listings: 
+⁃ Create a screen to display a list of products using --------. Use the provided static data.
+⁃ Implement a component to show the product image, name and price in the list
