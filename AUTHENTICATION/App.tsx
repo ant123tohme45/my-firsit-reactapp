@@ -6,7 +6,7 @@ import InitialScreen from './initial';
 import verification from '../Sign/verification';
 import { AuthProvider } from './authContext';
 import product from '../screen/product';
-import details from '../details';
+import details from '../screen/details';
 import { ThemeProvider } from '../screen/theme';
 
 

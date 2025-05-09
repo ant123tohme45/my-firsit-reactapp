@@ -1,144 +1,223 @@
 /* eslint-disable react-native/no-inline-styles */
-import { View, Text, TouchableOpacity, StyleSheet, Animated, Easing } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useRef } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Animated,
+  Easing,
+  Image,
+  Switch,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../screen/theme';
-import { Switch } from 'react-native';
 
-
-function InitialScreen() {
+const InitialScreen = () => {
   const navigation = useNavigation();
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const slideUpAnim = useRef(new Animated.Value(30)).current;
   const { isDarkMode, toggleTheme } = useTheme();
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(30)).current;
 
   useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start();
-
-    Animated.timing(slideUpAnim, {
-      toValue: 0,
-      duration: 600,
-      easing: Easing.out(Easing.exp),
-      useNativeDriver: true,
-    }).start();
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 600,
+        easing: Easing.out(Easing.exp),
+        useNativeDriver: true,
+      }),
+    ]).start();
   }, );
 
-  const dynamicStyles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: isDarkMode ? '#121212' : '#f8f9fa',
-      padding: 32,
-    },
-    title: {
-      fontSize: 32,
-      fontWeight: '700',
-      marginBottom: 8,
-      color: isDarkMode ? '#FFFFFF' : '#2d3748',
-      textAlign: 'center',
-    },
-    subtitle: {
-      fontSize: 16,
-      color: isDarkMode ? '#AAAAAA' : '#718096',
-      textAlign: 'center',
-      marginBottom: 48,
-      fontWeight: '400',
-    },
-    buttonContainer: {
-      width: '100%',
-      maxWidth: 320,
-    },
-    primaryButton: {
-      backgroundColor: '#6200ee',
-      paddingVertical: 16,
-      borderRadius: 12,
-      marginBottom: 16,
-      shadowColor: '#6200ee',
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.2,
-      shadowRadius: 8,
-      elevation: 4,
-    },
-    secondaryButton: {
-      backgroundColor: isDarkMode ? '#1f1f1f' : 'white',
-      paddingVertical: 16,
-      borderRadius: 12,
-      borderWidth: 1,
-      borderColor: isDarkMode ? '#333' : '#e2e8f0',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.05,
-      shadowRadius: 4,
-      elevation: 2,
-    },
-    buttonText: {
-      color: isDarkMode ? '#FFFFFF' : 'white',
-      fontSize: 16,
-      fontWeight: '600',
-      textAlign: 'center',
-    },
-    secondaryButtonText: {
-      color: '#6200ee',
-      fontSize: 16,
-      fontWeight: '600',
-      textAlign: 'center',
-    },
-    toggleThemeText: {
-      color: isDarkMode ? '#ccc' : '#444',
-      marginTop: 24,
-      fontSize: 14,
-      textDecorationLine: 'underline',
-    },
-  });
+  // Color definitions
+  const colors = {
+    background: isDarkMode ? '#121212' : '#f8f9fa',
+    text: isDarkMode ? '#ffffff' : '#2d3748',
+    secondaryText: isDarkMode ? '#a0aec0' : '#718096',
+    buttonPrimary: '#7f56d9',
+    buttonSecondaryBg: isDarkMode ? '#1e1e1e' : '#ffffff',
+    buttonSecondaryText: isDarkMode ? '#ffffff' : '#7f56d9',
+    border: isDarkMode ? '#2d3748' : '#e2e8f0',
+    toggleBg: isDarkMode ? '#333' : '#e2e8f0',
+    footerButtonBg: isDarkMode ? '#252525' : '#ededed',
+    footerButtonText: isDarkMode ? '#ffffff' : '#4a5568',
+  };
 
   return (
-    <View style={dynamicStyles.container}>
-      <Animated.View style={{ opacity: fadeAnim }}>
-        <Text style={dynamicStyles.title}>Welcome to My App</Text>
-        <Text style={dynamicStyles.subtitle}>Please sign in or create an account</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Animated.View style={{ opacity: fadeAnim, alignItems: 'center' }}>
+        <Image
+          source={isDarkMode
+            ? require('../logo.jpg')
+            : require('../logo.jpg')}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+        <Text style={[styles.title, { color: colors.text }]}>
+          Welcome to MyApp
+        </Text>
+        <Text style={[styles.subtitle, { color: colors.secondaryText }]}>
+          Please sign in or create an account
+        </Text>
       </Animated.View>
 
       <Animated.View
         style={[
-          dynamicStyles.buttonContainer,
-          { transform: [{ translateY: slideUpAnim }], opacity: fadeAnim },
+          styles.buttonContainer,
+          {
+            transform: [{ translateY: slideAnim }],
+            opacity: fadeAnim,
+          },
         ]}
       >
         <TouchableOpacity
-          style={dynamicStyles.primaryButton}
+          style={[styles.primaryButton, { backgroundColor: colors.buttonPrimary }]}
           onPress={() => navigation.navigate('Signup')}
           activeOpacity={0.8}
         >
-          <Text style={dynamicStyles.buttonText}>Create Account</Text>
+          <Text style={styles.buttonText}>Create Account</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={dynamicStyles.secondaryButton}
+          style={[
+            styles.secondaryButton,
+            {
+              backgroundColor: colors.buttonSecondaryBg,
+              borderColor: colors.border,
+            },
+          ]}
           onPress={() => navigation.navigate('Signin')}
           activeOpacity={0.8}
         >
-          <Text style={dynamicStyles.secondaryButtonText}>Sign In</Text>
+          <Text style={[styles.secondaryButtonText, { color: colors.buttonSecondaryText }]}>
+            Sign In
+          </Text>
         </TouchableOpacity>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
-  <Text style={{ marginRight: 10, color: isDarkMode ? '#fff' : '#000' }}>
-    Dark Mode
-  </Text>
-  <Switch
-    value={isDarkMode}
-    onValueChange={toggleTheme}
-    trackColor={{ false: '#767577', true: '#81b0ff' }}
-    thumbColor={isDarkMode ? '#f5dd4b' : '#f4f3f4'}
-  />
-</View>
+        {/* Dark Mode Toggle */}
+        <View style={[styles.themeToggle, { backgroundColor: colors.toggleBg }]}>
+          <Text style={{ color: isDarkMode ? '#a0aec0' : '#718096', marginRight: 10 }}>
+            Dark Mode
+          </Text>
+          <Switch
+            value={isDarkMode}
+            onValueChange={toggleTheme}
+            trackColor={{ false: '#767577', true: '#81b0ff' }}
+            thumbColor={isDarkMode ? '#f5dd4b' : '#f4f3f4'}
+          />
+        </View>
       </Animated.View>
+
+      {/* Footer Buttons */}
+      <View style={styles.footer}>
+        <TouchableOpacity
+          style={[styles.footerButton, { backgroundColor: colors.footerButtonBg }]}
+          onPress={() => navigation.navigate('ContactUs')}
+          activeOpacity={0.7}
+        >
+          <Text style={[styles.footerButtonText, { color: colors.footerButtonText }]}>
+            Contact Us
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.footerButton, { backgroundColor: colors.footerButtonBg }]}
+          onPress={() => navigation.navigate('Support')}
+          activeOpacity={0.7}
+        >
+          <Text style={[styles.footerButtonText, { color: colors.footerButtonText }]}>
+            Support
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 32,
+  },
+  logo: {
+    width: 120,
+    height: 120,
+    marginBottom: 24,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 48,
+    fontWeight: '400',
+  },
+  buttonContainer: {
+    width: '100%',
+    maxWidth: 320,
+    alignItems: 'center',
+  },
+  primaryButton: {
+    paddingVertical: 16,
+    borderRadius: 12,
+    marginBottom: 16,
+    alignItems: 'center',
+    width: '100%',
+  },
+  secondaryButton: {
+    paddingVertical: 16,
+    borderRadius: 12,
+    borderWidth: 1,
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 20,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  secondaryButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  themeToggle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderRadius: 24,
+    marginTop: 10,
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 20,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingHorizontal: 20,
+  },
+  footerButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  footerButtonText: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
+});
 
 export default InitialScreen;

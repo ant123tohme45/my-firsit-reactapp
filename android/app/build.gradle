@@ -105,6 +105,9 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    project.ext.vectoricons = [
+    iconFontNames: [ 'Poppins-Regular.ttf', 'Poppins-Bold.ttf' ] // Add all your fonts
+]
 }
 
 dependencies {
