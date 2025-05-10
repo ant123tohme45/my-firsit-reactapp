@@ -5,7 +5,7 @@ import Signin from '../Sign/Signin';
 import InitialScreen from './initial';
 import verification from '../Sign/verification';
 import { AuthProvider } from './authContext';
-import product from '../screen/product';
+import ProductListScreen from '../screen/product';
 import details from '../screen/details';
 import { ThemeProvider } from '../screen/theme';
 
@@ -40,7 +40,7 @@ function App() {
             />
             <Stack.Screen
               name="ProductScreen"
-              component={product}
+              component={ProductListScreen}
               options={{ title: 'Products' }}
             />
             <Stack.Screen
@@ -48,6 +48,7 @@ function App() {
               component={details}
               options={{ title: 'Profile' }}
             />
+
           </Stack.Navigator>
         </NavigationContainer>
       </ThemeProvider>

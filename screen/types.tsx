@@ -1,5 +1,6 @@
 // types.ts
 export interface Product {
+  category: any;
   id: string;
   name: string;
   price: string;

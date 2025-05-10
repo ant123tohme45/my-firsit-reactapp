@@ -6,11 +6,11 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Image,
   TextInput,
   KeyboardAvoidingView,
   Platform,
   Alert,
+  ImageBackground,
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,6 +19,9 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAuth } from '../AUTHENTICATION/authContext';
 import { useTheme } from '../screen/theme';
+
+// Import your image directly
+const backgroundImage = require('../8033213.webp');
 
 type RootStackParamList = {
   signin: undefined;
@@ -53,11 +56,16 @@ const Signin = () => {
 
   // Dynamic styles based on theme
   const styles = StyleSheet.create({
+    background: {
+      flex: 1,
+      width: '100%',
+      height: '100%',
+    },
     container: {
       flex: 1,
       justifyContent: 'center',
       paddingHorizontal: 24,
-      backgroundColor: isDarkMode ? '#121212' : '#fff',
+      backgroundColor: 'rgba(0,0,0,0.5)', // Semi-transparent background for better text readability
     },
     logoContainer: {
       alignItems: 'center',
@@ -66,20 +74,29 @@ const Signin = () => {
     logoText: {
       fontSize: 36,
       fontWeight: '800',
-      color: isDarkMode ? '#7F9CF5' : '#007BFF',
+      color: isDarkMode ? '#7F9CF5' : '#FFFFFF', // Changed to white for better visibility
+      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 10,
     },
     header: {
       fontSize: 26,
       fontWeight: '700',
-      color: isDarkMode ? '#E2E8F0' : '#333',
+      color: '#FFFFFF', // Changed to white
       textAlign: 'center',
       marginBottom: 8,
+      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 10,
     },
     subHeader: {
       fontSize: 16,
-      color: isDarkMode ? '#A0AEC0' : '#666',
+      color: '#FFFFFF', // Changed to white
       textAlign: 'center',
       marginBottom: 20,
+      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 10,
     },
     input: {
       height: 50,
@@ -88,8 +105,8 @@ const Signin = () => {
       paddingHorizontal: 15,
       marginBottom: 12,
       borderRadius: 8,
-      backgroundColor: isDarkMode ? '#1E1E1E' : '#f9f9f9',
-      color: isDarkMode ? '#E2E8F0' : '#333',
+      backgroundColor: 'rgba(255, 255, 255, 0.9)', // Semi-transparent white
+      color: isDarkMode ? '#121212' : '#333',
       elevation: 1,
       shadowColor: isDarkMode ? '#000' : '#000',
       shadowOffset: { width: 0, height: 1 },
@@ -100,6 +117,9 @@ const Signin = () => {
       color: '#F56565',
       fontSize: 13,
       marginBottom: 10,
+      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 10,
     },
     button: {
       backgroundColor: isDarkMode ? '#7F9CF5' : '#007BFF',
@@ -118,10 +138,13 @@ const Signin = () => {
       fontWeight: 'bold',
     },
     forgotPassword: {
-      color: isDarkMode ? '#7F9CF5' : '#007BFF',
+      color: isDarkMode ? '#7F9CF5' : '#FFFFFF', // Changed to white
       fontSize: 14,
       textAlign: 'right',
       marginBottom: 20,
+      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 10,
     },
     dividerContainer: {
       flexDirection: 'row',
@@ -131,12 +154,15 @@ const Signin = () => {
     divider: {
       flex: 1,
       height: 1,
-      backgroundColor: isDarkMode ? '#2D3748' : '#ccc',
+      backgroundColor: isDarkMode ? '#FFFFFF' : '#FFFFFF', // Changed to white
     },
     dividerText: {
       marginHorizontal: 10,
-      color: isDarkMode ? '#A0AEC0' : '#999',
+      color: '#FFFFFF', // Changed to white
       fontWeight: 'bold',
+      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 10,
     },
     signupContainer: {
       flexDirection: 'row',
@@ -144,13 +170,19 @@ const Signin = () => {
       marginTop: 10,
     },
     signupText: {
-      color: isDarkMode ? '#A0AEC0' : '#333',
+      color: '#FFFFFF', // Changed to white
       fontSize: 14,
+      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 10,
     },
     signupLink: {
-      color: isDarkMode ? '#7F9CF5' : '#007BFF',
+      color: isDarkMode ? '#7F9CF5' : '#FFFFFF', // Changed to white
       fontWeight: 'bold',
       fontSize: 14,
+      textShadowColor: 'rgba(0, 0, 0, 0.75)',
+      textShadowOffset: {width: -1, height: 1},
+      textShadowRadius: 10,
     },
     themeToggle: {
       position: 'absolute',
@@ -158,7 +190,8 @@ const Signin = () => {
       right: 20,
       padding: 10,
       borderRadius: 20,
-      backgroundColor: isDarkMode ? '#2D3748' : '#E2E8F0',
+      backgroundColor: isDarkMode ? 'rgba(45, 55, 72, 0.7)' : 'rgba(226, 232, 240, 0.7)',
+      zIndex: 1,
     },
   });
 
@@ -167,97 +200,103 @@ const Signin = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={{ flex: 1 }}
     >
-      <ScrollView
-        contentContainerStyle={styles.container}
-        keyboardShouldPersistTaps="handled"
+      <ImageBackground
+        source={backgroundImage}
+        style={StyleSheet.absoluteFillObject}
+        resizeMode="cover"
       >
-        <TouchableOpacity
-          style={styles.themeToggle}
-          onPress={toggleTheme}
+        <ScrollView
+          contentContainerStyle={styles.container}
+          keyboardShouldPersistTaps="handled"
         >
-          <Text style={{ color: isDarkMode ? '#E2E8F0' : '#2D3748' }}>
-            {isDarkMode ? '☀️' : '🌙'}
-          </Text>
-        </TouchableOpacity>
-
-        <View style={styles.logoContainer}>
-          <Text style={styles.logoText}>🛒 MyShop</Text>
-        </View>
-        <Text style={styles.header}>Welcome Back 👋</Text>
-        <Text style={styles.subHeader}>Please sign in to continue</Text>
-
-        <Controller
-          control={control}
-          name="email"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <>
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                placeholderTextColor={isDarkMode ? '#4A5568' : '#999'}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                autoCapitalize="none"
-                keyboardType="email-address"
-              />
-              {errors.email && (
-                <Text style={styles.errorText}>{errors.email.message}</Text>
-              )}
-            </>
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="password"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <>
-              <TextInput
-                style={styles.input}
-                placeholder="Password"
-                placeholderTextColor={isDarkMode ? '#4A5568' : '#999'}
-                secureTextEntry
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                autoCapitalize="none"
-              />
-              {errors.password && (
-                <Text style={styles.errorText}>{errors.password.message}</Text>
-              )}
-            </>
-          )}
-        />
-
-        <TouchableOpacity>
-          <Text style={styles.forgotPassword}>Forgot Password?</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.8}
-          onPress={handleSubmit(onSubmit)}
-          disabled={isSubmitting}
-        >
-          <Text style={styles.buttonText}>
-            {isSubmitting ? 'Signing In...' : 'Sign In'}
-          </Text>
-        </TouchableOpacity>
-
-        <View style={styles.dividerContainer}>
-          <View style={styles.divider} />
-          <Text style={styles.dividerText}>OR</Text>
-          <View style={styles.divider} />
-        </View>
-
-        <View style={styles.signupContainer}>
-          <Text style={styles.signupText}>Don't have an account?</Text>
-          <TouchableOpacity>
-            <Text style={styles.signupLink} onPress={() => navigation.navigate('Signup')}> Sign Up</Text>
+          <TouchableOpacity
+            style={styles.themeToggle}
+            onPress={toggleTheme}
+          >
+            <Text style={{ color: isDarkMode ? '#E2E8F0' : '#2D3748' }}>
+              {isDarkMode ? '☀️' : '🌙'}
+            </Text>
           </TouchableOpacity>
-        </View>
-      </ScrollView>
+
+          <View style={styles.logoContainer}>
+            <Text style={styles.logoText}>🛒 MyShop</Text>
+          </View>
+          <Text style={styles.header}>Welcome Back 👋</Text>
+          <Text style={styles.subHeader}>Please sign in to continue</Text>
+
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  placeholderTextColor={isDarkMode ? '#4A5568' : '#999'}
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                />
+                {errors.email && (
+                  <Text style={styles.errorText}>{errors.email.message}</Text>
+                )}
+              </>
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Password"
+                  placeholderTextColor={isDarkMode ? '#4A5568' : '#999'}
+                  secureTextEntry
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                  autoCapitalize="none"
+                />
+                {errors.password && (
+                  <Text style={styles.errorText}>{errors.password.message}</Text>
+                )}
+              </>
+            )}
+          />
+
+          <TouchableOpacity>
+            <Text style={styles.forgotPassword}>Forgot Password?</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.8}
+            onPress={handleSubmit(onSubmit)}
+            disabled={isSubmitting}
+          >
+            <Text style={styles.buttonText}>
+              {isSubmitting ? 'Signing In...' : 'Sign In'}
+            </Text>
+          </TouchableOpacity>
+
+          <View style={styles.dividerContainer}>
+            <View style={styles.divider} />
+            <Text style={styles.dividerText}>OR</Text>
+            <View style={styles.divider} />
+          </View>
+
+          <View style={styles.signupContainer}>
+            <Text style={styles.signupText}>Don't have an account?</Text>
+            <TouchableOpacity>
+              <Text style={styles.signupLink} onPress={() => navigation.navigate('Signup')}> Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </ImageBackground>
     </KeyboardAvoidingView>
   );
 };

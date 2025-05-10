@@ -9,6 +9,7 @@ import {
   Easing,
   Image,
   Switch,
+  ImageBackground, // Add this import
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../screen/theme';
@@ -50,103 +51,115 @@ const InitialScreen = () => {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Animated.View style={{ opacity: fadeAnim, alignItems: 'center' }}>
-        <Image
-          source={isDarkMode
-            ? require('../logo.jpg')
-            : require('../logo.jpg')}
-          style={styles.logo}
-          resizeMode="contain"
-        />
-        <Text style={[styles.title, { color: colors.text }]}>
-          Welcome to MyApp
-        </Text>
-        <Text style={[styles.subtitle, { color: colors.secondaryText }]}>
-          Please sign in or create an account
-        </Text>
-      </Animated.View>
+    <ImageBackground
+      source={require('../8033213.webp')} // Replace with your image path
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <View style={[styles.container, { backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)' }]}>
+        <Animated.View style={{ opacity: fadeAnim, alignItems: 'center' }}>
+          <Image
+            source={isDarkMode
+              ? require('../logo.jpg')
+              : require('../logo.jpg')}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+          <Text style={[styles.title, { color: colors.text }]}>
+            Welcome to MyApp
+          </Text>
+          <Text style={[styles.subtitle, { color: colors.secondaryText }]}>
+            Please sign in or create an account
+          </Text>
+        </Animated.View>
 
-      <Animated.View
-        style={[
-          styles.buttonContainer,
-          {
-            transform: [{ translateY: slideAnim }],
-            opacity: fadeAnim,
-          },
-        ]}
-      >
-        <TouchableOpacity
-          style={[styles.primaryButton, { backgroundColor: colors.buttonPrimary }]}
-          onPress={() => navigation.navigate('Signup')}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.buttonText}>Create Account</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
+        {/* Rest of your component remains the same */}
+        <Animated.View
           style={[
-            styles.secondaryButton,
+            styles.buttonContainer,
             {
-              backgroundColor: colors.buttonSecondaryBg,
-              borderColor: colors.border,
+              transform: [{ translateY: slideAnim }],
+              opacity: fadeAnim,
             },
           ]}
-          onPress={() => navigation.navigate('Signin')}
-          activeOpacity={0.8}
         >
-          <Text style={[styles.secondaryButtonText, { color: colors.buttonSecondaryText }]}>
-            Sign In
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.primaryButton, { backgroundColor: colors.buttonPrimary }]}
+            onPress={() => navigation.navigate('Signup')}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.buttonText}>Create Account</Text>
+          </TouchableOpacity>
 
-        {/* Dark Mode Toggle */}
-        <View style={[styles.themeToggle, { backgroundColor: colors.toggleBg }]}>
-          <Text style={{ color: isDarkMode ? '#a0aec0' : '#718096', marginRight: 10 }}>
-            Dark Mode
-          </Text>
-          <Switch
-            value={isDarkMode}
-            onValueChange={toggleTheme}
-            trackColor={{ false: '#767577', true: '#81b0ff' }}
-            thumbColor={isDarkMode ? '#f5dd4b' : '#f4f3f4'}
-          />
+          <TouchableOpacity
+            style={[
+              styles.secondaryButton,
+              {
+                backgroundColor: colors.buttonSecondaryBg,
+                borderColor: colors.border,
+              },
+            ]}
+            onPress={() => navigation.navigate('Signin')}
+            activeOpacity={0.8}
+          >
+            <Text style={[styles.secondaryButtonText, { color: colors.buttonSecondaryText }]}>
+              Sign In
+            </Text>
+          </TouchableOpacity>
+
+          {/* Dark Mode Toggle */}
+          <View style={[styles.themeToggle, { backgroundColor: colors.toggleBg }]}>
+            <Text style={{ color: isDarkMode ? '#a0aec0' : '#718096', marginRight: 10 }}>
+              Dark Mode
+            </Text>
+            <Switch
+              value={isDarkMode}
+              onValueChange={toggleTheme}
+              trackColor={{ false: '#767577', true: '#81b0ff' }}
+              thumbColor={isDarkMode ? '#f5dd4b' : '#f4f3f4'}
+            />
+          </View>
+        </Animated.View>
+
+        {/* Footer Buttons */}
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={[styles.footerButton, { backgroundColor: colors.footerButtonBg }]}
+            onPress={() => navigation.navigate('ContactUs')}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.footerButtonText, { color: colors.footerButtonText }]}>
+              Contact Us
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.footerButton, { backgroundColor: colors.footerButtonBg }]}
+            onPress={() => navigation.navigate('Support')}
+            activeOpacity={0.7}
+          >
+            <Text style={[styles.footerButtonText, { color: colors.footerButtonText }]}>
+              Support
+            </Text>
+          </TouchableOpacity>
         </View>
-      </Animated.View>
-
-      {/* Footer Buttons */}
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={[styles.footerButton, { backgroundColor: colors.footerButtonBg }]}
-          onPress={() => navigation.navigate('ContactUs')}
-          activeOpacity={0.7}
-        >
-          <Text style={[styles.footerButtonText, { color: colors.footerButtonText }]}>
-            Contact Us
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.footerButton, { backgroundColor: colors.footerButtonBg }]}
-          onPress={() => navigation.navigate('Support')}
-          activeOpacity={0.7}
-        >
-          <Text style={[styles.footerButtonText, { color: colors.footerButtonText }]}>
-            Support
-          </Text>
-        </TouchableOpacity>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 32,
   },
+  // Rest of your styles remain the same
   logo: {
     width: 120,
     height: 120,

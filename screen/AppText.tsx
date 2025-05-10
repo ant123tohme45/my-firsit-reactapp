@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import { Text, TextProps } from 'react-native';
-import { useTheme } from './screen/theme';
-import { useFonts } from './FontContext';
+import { useTheme } from './theme';
+import { useFonts } from '../FontContext';
 
 type AppTextProps = TextProps & {
   weight?: 'regular' | 'medium' | 'bold';
