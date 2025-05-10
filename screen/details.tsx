@@ -1,85 +1,112 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { useRoute, RouteProp } from '@react-navigation/native';
-import { RootStackParamList } from '../screen/types';
-
-type ProductDetailsRouteProp = RouteProp<RootStackParamList, 'ProductDetails'>;
+import { useRoute } from '@react-navigation/native';
 
 const ProductDetailsScreen = () => {
-  const route = useRoute<ProductDetailsRouteProp>();
-  const { product } = route.params;
+  const { params } = useRoute();
+  const { product } = params;
 
   return (
-    <ScrollView style={styles.container}>
-      <Image source={{ uri: product.image }} style={styles.productImage} />
-      <View style={styles.detailsContainer}>
-        <Text style={styles.productName}>{product.name}</Text>
-        <Text style={styles.productPrice}>{product.price}</Text>
-        <Text style={styles.productDescription}>{product.description}</Text>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={[styles.button, styles.shareButton]}>
-            <Text style={styles.buttonText}>Share</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.cartButton]}>
-            <Text style={styles.buttonText}>Add to Cart</Text>
-          </TouchableOpacity>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Product Image */}
+        <View style={styles.imageWrapper}>
+          <Image
+            source={{ uri: product.image }}
+            style={styles.image}
+            resizeMode="contain"
+          />
         </View>
+
+        {/* Product Info */}
+        <View style={styles.infoContainer}>
+          <Text style={styles.name}>{product.name}</Text>
+          <Text style={styles.price}>{product.price}</Text>
+          <Text style={styles.description}>{product.description}</Text>
+        </View>
+      </ScrollView>
+
+      {/* Fixed Action Buttons */}
+      <View style={styles.actionBar}>
+        <TouchableOpacity style={styles.shareButton}>
+          <Text style={styles.buttonText}>Share</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.cartButton}>
+          <Text style={styles.buttonText}>Add to Cart</Text>
+        </TouchableOpacity>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
   },
-  productImage: {
+  scrollContent: {
+    paddingBottom: 80, // Space for action bar
+  },
+  imageWrapper: {
+    backgroundColor: '#f8f8f8',
+    borderRadius: 12,
+    margin: 16,
+    padding: 16,
+  },
+  image: {
     width: '100%',
     height: 300,
   },
-  detailsContainer: {
-    padding: 20,
+  infoContainer: {
+    paddingHorizontal: 24,
   },
-  productName: {
+  name: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    color: '#333',
     marginBottom: 8,
   },
-  productPrice: {
+  price: {
     fontSize: 20,
-    color: '#888',
+    fontWeight: '700',
+    color: '#4CAF50',
     marginBottom: 16,
   },
-  productDescription: {
+  description: {
     fontSize: 16,
     lineHeight: 24,
     color: '#666',
     marginBottom: 24,
   },
-  buttonContainer: {
+  actionBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
-  },
-  button: {
-    flex: 1,
-    padding: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 8,
+    padding: 16,
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
   },
   shareButton: {
-    backgroundColor: '#1e88e5',
+    flex: 1,
+    backgroundColor: '#e0e0e0',
+    padding: 16,
+    borderRadius: 8,
+    marginRight: 8,
   },
   cartButton: {
-    backgroundColor: '#43a047',
+    flex: 2,
+    backgroundColor: '#4CAF50',
+    padding: 16,
+    borderRadius: 8,
+    marginLeft: 8,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: '600',
+    color: '#fff',
   },
 });
 

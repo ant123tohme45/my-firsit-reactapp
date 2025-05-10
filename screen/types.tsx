@@ -1,5 +1,8 @@
 // types.ts
 export interface Product {
+  rating: ReactNode;
+  reviews: ReactNode;
+  similarProducts: any;
   category: any;
   id: string;
   name: string;
