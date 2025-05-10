@@ -20,6 +20,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAuth } from '../AUTHENTICATION/authContext';
 import { useTheme } from '../screen/theme';
 
+
 // Import your image directly
 const backgroundImage = require('../8033213.webp');
 
@@ -27,6 +28,8 @@ type RootStackParamList = {
   signin: undefined;
   ProfileScreen: undefined;
   ProductScreen: undefined;
+  forgot: undefined; // Add this line
+
 };
 
 type SigninScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'signin'>;
@@ -269,7 +272,7 @@ const Signin = () => {
           />
 
           <TouchableOpacity>
-            <Text style={styles.forgotPassword}>Forgot Password?</Text>
+            <Text style={styles.forgotPassword} onPress={() => navigation.navigate('forgot')}>Forgot Password?</Text>
           </TouchableOpacity>
 
           <TouchableOpacity

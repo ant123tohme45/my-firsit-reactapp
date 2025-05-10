@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ProductDetailsScreen = () => {
   const { params } = useRoute();
@@ -29,9 +30,11 @@ const ProductDetailsScreen = () => {
       {/* Fixed Action Buttons */}
       <View style={styles.actionBar}>
         <TouchableOpacity style={styles.shareButton}>
-          <Text style={styles.buttonText}>Share</Text>
+          <Icon name="share-variant" size={20} color="#555" />
+          <Text style={[styles.buttonText, styles.shareButtonText]}>Share</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.cartButton}>
+          <Icon name="row" size={20} color="#fff" style={styles.cartIcon} />
           <Text style={styles.buttonText}>Add to Cart</Text>
         </TouchableOpacity>
       </View>
@@ -91,22 +94,34 @@ const styles = StyleSheet.create({
   },
   shareButton: {
     flex: 1,
+    flexDirection: 'row',
     backgroundColor: '#e0e0e0',
     padding: 16,
     borderRadius: 8,
     marginRight: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   cartButton: {
     flex: 2,
+    flexDirection: 'row',
     backgroundColor: '#4CAF50',
     padding: 16,
     borderRadius: 8,
     marginLeft: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonText: {
-    textAlign: 'center',
     fontWeight: '600',
     color: '#fff',
+    marginLeft: 8,
+  },
+  shareButtonText: {
+    color: '#555',
+  },
+  cartIcon: {
+    marginRight: 4,
   },
 });
 

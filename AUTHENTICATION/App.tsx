@@ -4,10 +4,11 @@ import Signup from '../Sign/Signup';
 import Signin from '../Sign/Signin';
 import InitialScreen from './initial';
 import verification from '../Sign/verification';
-import { AuthProvider } from './authContext';
+import { AuthProvider } from '../AUTHENTICATION/authContext';
 import ProductListScreen from '../screen/product';
 import details from '../screen/details';
 import { ThemeProvider } from '../screen/theme';
+import ForgotPasswordScreen from '../forgot';
 
 
 const Stack = createNativeStackNavigator();
@@ -48,6 +49,10 @@ function App() {
               component={details}
               options={{ title: 'Profile' }}
             />
+<Stack.Screen
+name="forgot"
+component={ForgotPasswordScreen}
+/>
 
           </Stack.Navigator>
         </NavigationContainer>
