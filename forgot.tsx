@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  Image,
+  ScrollView,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState('');
@@ -14,131 +25,155 @@ const ForgotPasswordScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-    >
+    
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+      >
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.card}>
+            {!isSubmitted ? (
+              <>
+                <Text style={styles.title}>Forgot Password?</Text>
+                <Text style={styles.subtitle}>
+                  Don't worry! Just enter your email and we'll send you a reset link
+                </Text>
 
-        {!isSubmitted ? (
-          <>
-            <Text style={styles.title}>Forgot Password?</Text>
-            <Text style={styles.subtitle}>
-              Enter your email address and we'll send you a link to reset your password
-            </Text>
+                <View style={styles.inputContainer}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter your email"
+                    placeholderTextColor="#999"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    value={email}
+                    onChangeText={setEmail}
+                  />
+                </View>
 
-            {/* Email Input */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Email Address</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="your@email.com"
-                placeholderTextColor="#999"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                value={email}
-                onChangeText={setEmail}
-              />
-            </View>
+                <TouchableOpacity
+                  style={[styles.submitButton, !email && styles.disabledButton]}
+                  onPress={handleSubmit}
+                  disabled={!email}
+                >
 
-            {/* Submit Button */}
-            <TouchableOpacity
-              style={styles.submitButton}
-              onPress={handleSubmit}
-              disabled={!email}
-            >
-              <Text style={styles.submitButtonText}>Send Reset Link</Text>
-            </TouchableOpacity>
-          </>
-        ) : (
-          <>
-            <Text style={styles.title}>Check Your Email</Text>
-            <Text style={styles.subtitle}>
-              We've sent a password reset link to {email}
-            </Text>
+                    <Text style={styles.submitButtonText}>Send Reset Link</Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
 
+                <Text style={styles.title}>Check Your Email</Text>
+                <Text style={styles.subtitle}>
+                  We've sent password reset instructions to {'\n'}
+                  <Text style={styles.emailText}>{email}</Text>
+                </Text>
 
-            <TouchableOpacity
-              style={styles.backToLoginButton}
-              onPress={() => navigation.goBack()}
-            >
-              <Text style={styles.backToLoginText}>Back to Login</Text>
-            </TouchableOpacity>
-          </>
-        )}
-    </KeyboardAvoidingView>
+                <TouchableOpacity
+                  style={styles.backToLoginButton}
+                  onPress={() => navigation.goBack()}
+                >
+                  <Text style={styles.backToLoginText}>← Back to Login</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   scrollContainer: {
     flexGrow: 1,
-    padding: 24,
     justifyContent: 'center',
+    padding: 24,
+  },
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 30,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 8,
   },
   logo: {
-    width: 120,
-    height: 120,
+    width: 150,
+    height: 150,
     alignSelf: 'center',
-    marginBottom: 40,
+    marginBottom: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 26,
+    fontWeight: '700',
     color: '#333',
     textAlign: 'center',
-    marginBottom: 12,
+    marginBottom: 10,
+    fontFamily: 'sans-serif-medium',
   },
   subtitle: {
     fontSize: 16,
     color: '#666',
     textAlign: 'center',
-    marginBottom: 32,
-    paddingHorizontal: 24,
+    marginBottom: 30,
+    lineHeight: 22,
+  },
+  emailText: {
+    fontWeight: '600',
+    color: '#4CAF50',
   },
   inputContainer: {
-    marginBottom: 24,
-  },
-  inputLabel: {
-    fontSize: 14,
-    color: '#444',
-    marginBottom: 8,
-    fontWeight: '500',
+    marginBottom: 25,
   },
   input: {
     height: 50,
     borderWidth: 1,
     borderColor: '#ddd',
-    borderRadius: 8,
-    paddingHorizontal: 16,
+    borderRadius: 12,
+    paddingHorizontal: 20,
     fontSize: 16,
     backgroundColor: '#f9f9f9',
+    color: '#333',
   },
   submitButton: {
-    backgroundColor: '#4CAF50',
+    borderRadius: 12,
+    overflow: 'hidden',
+    marginTop: 15,
+    shadowColor: '#4CAF50',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+  },
+  gradient: {
     padding: 16,
-    borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 16,
   },
   submitButtonText: {
-    color: '#fff',
+    color: 'white',
     fontSize: 16,
     fontWeight: '600',
   },
+  disabledButton: {
+    opacity: 0.6,
+  },
   successImage: {
-    width: 200,
-    height: 200,
+    width: 180,
+    height: 180,
     alignSelf: 'center',
-    marginVertical: 40,
+    marginBottom: 20,
   },
   backToLoginButton: {
-    marginTop: 24,
-    padding: 16,
+    marginTop: 25,
+    padding: 12,
     alignItems: 'center',
   },
   backToLoginText: {
