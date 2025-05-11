@@ -2,7 +2,7 @@
 import React from 'react';
 import { Text, TextProps } from 'react-native';
 import { useTheme } from './theme';
-import { useFonts } from '../FontContext';
+import { useFonts } from '../main/FontContext';
 
 type AppTextProps = TextProps & {
   weight?: 'regular' | 'medium' | 'bold';

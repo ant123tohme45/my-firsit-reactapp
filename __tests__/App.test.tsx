@@ -4,7 +4,7 @@
 
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
-import App from '../screens/Home';
+import App from '../src/Screens/Home';
 
 test('renders correctly', async () => {
   await ReactTestRenderer.act(() => {

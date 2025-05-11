@@ -14,9 +14,9 @@ import {
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signUpSchema, SignUpFormData } from '../AUTHENTICATION/schema';
+import { signUpSchema, SignUpFormData } from '../theme/schema';
 import { useNavigation } from '@react-navigation/native';
-import { useTheme } from '../screen/theme';
+import { useTheme } from '../theme/theme';
 import LinearGradient from 'react-native-linear-gradient';
 
 // Import your background image

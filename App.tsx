@@ -1,15 +1,15 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Signup from '../Sign/Signup';
-import Signin from '../Sign/Signin';
-import InitialScreen from './initial';
-import verification from '../Sign/verification';
-import { AuthProvider } from '../AUTHENTICATION/authContext';
-import ProductListScreen from '../screen/product';
-import details from '../screen/details';
-import { ThemeProvider } from '../screen/theme';
-import ForgotPasswordScreen from '../forgot';
-
+import Signup from './src/Sign/Signup';
+import Signin from './src/Sign/Signin';
+import InitialScreen from './src/main/initial';
+import verification from './src/Sign/verification';
+import { AuthProvider } from './src/AUTHENTICATION/authContext';
+import ProductListScreen from './src/Screens/product';
+import details from './src/Screens/details';
+import { ThemeProvider } from './src/theme/theme';
+import ForgotPasswordScreen from './src/Screens/forgot';
+import ContactUsScreen from './src/Screens/forgot';
 
 const Stack = createNativeStackNavigator();
 
@@ -49,10 +49,16 @@ function App() {
               component={details}
               options={{ title: 'Profile' }}
             />
-<Stack.Screen
-name="forgot"
-component={ForgotPasswordScreen}
-/>
+            <Stack.Screen
+              name="forgot"
+              component={ForgotPasswordScreen}
+              options={{ title: 'Forgot' }}
+
+            />
+            <Stack.Screen name="ContactUs" component={ContactUsScreen}
+            />
+
+
 
           </Stack.Navigator>
         </NavigationContainer>

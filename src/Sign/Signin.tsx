@@ -14,11 +14,11 @@ import {
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signInSchema, SignInFormData } from '../AUTHENTICATION/schema';
+import { signInSchema, SignInFormData } from '../theme/schema';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAuth } from '../AUTHENTICATION/authContext';
-import { useTheme } from '../screen/theme';
+import { useTheme } from '../theme/theme';
 
 
 // Import your image directly

@@ -7,11 +7,9 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  Image,
   ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { LinearGradient } from 'expo-linear-gradient';
 
 const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState('');
@@ -25,7 +23,7 @@ const ForgotPasswordScreen = () => {
   };
 
   return (
-    
+
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}

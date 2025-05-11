@@ -12,7 +12,7 @@ import {
   ImageBackground, // Add this import
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useTheme } from '../screen/theme';
+import { useTheme } from '../theme/theme';
 
 const InitialScreen = () => {
   const navigation = useNavigation();
